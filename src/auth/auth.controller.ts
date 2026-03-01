@@ -16,11 +16,11 @@ export class AuthController {
 
   @MessagePattern({ cmd: AuthMessage.AUTH_REGISTER })
   async register(@Payload() payload: RegisterUserDto) {
-    return await this.authService.register(payload);
+    return await this.authService.registerUser(payload);
   }
 
   @MessagePattern({ cmd: AuthMessage.AUTH_VERIFY })
-  async verify(@Payload() payload: string) {
-    return await this.authService.verify(payload);
+  async verify(@Payload() payload: { token: string }) {
+    return await this.authService.verifyToken(payload.token);
   }
 }

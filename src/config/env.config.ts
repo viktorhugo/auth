@@ -10,6 +10,9 @@ interface EnvironmentVariables {
   AWS_ACCESS_KEY_ID: string;
   AWS_SECRET_ACCESS_KEY: string;
   DYNAMODB_ENDPOINT: string;
+  JWT_SECRET: string;
+  JWT_EXPIRES_IN: number;
+  PASSWORD_SALT_ROUNDS: number;
 }
 
 const envVarsSchema = joi
@@ -25,6 +28,9 @@ const envVarsSchema = joi
     AWS_ACCESS_KEY_ID: joi.string().default('test'),
     AWS_SECRET_ACCESS_KEY: joi.string().default('test'),
     DYNAMODB_ENDPOINT: joi.string().required(),
+    JWT_SECRET: joi.string().required(),
+    JWT_EXPIRES_IN: joi.number().default(3600),
+    PASSWORD_SALT_ROUNDS: joi.number().default(10),
   })
   .unknown(true)
   .required();
@@ -46,4 +52,7 @@ export const envs = {
   awsAccessKeyId: envVars.AWS_ACCESS_KEY_ID,
   awsSecretAccessKey: envVars.AWS_SECRET_ACCESS_KEY,
   dynamodbEndpoint: envVars.DYNAMODB_ENDPOINT,
+  jwtSecret: envVars.JWT_SECRET,
+  jwtExpiresIn: envVars.JWT_EXPIRES_IN,
+  passwordSaltRounds: envVars.PASSWORD_SALT_ROUNDS,
 };

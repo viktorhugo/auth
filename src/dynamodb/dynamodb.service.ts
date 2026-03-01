@@ -1,4 +1,4 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
@@ -10,11 +10,11 @@ import {
 import { envs } from '../config';
 
 @Injectable()
-export class DynamodbService implements OnModuleInit {
+export class DynamodbService {
   private readonly logger = new Logger(DynamodbService.name);
-  private client: DynamoDBDocumentClient;
+  private readonly client: DynamoDBDocumentClient;
 
-  onModuleInit() {
+  constructor() {
     const rawClient = new DynamoDBClient({
       region: envs.awsRegion,
       endpoint: envs.dynamodbEndpoint,
@@ -32,7 +32,9 @@ export class DynamodbService implements OnModuleInit {
     tableName: string,
     item: Record<string, unknown>,
   ): Promise<void> {
-    await this.client.send(new PutCommand({ TableName: tableName, Item: item }));
+    await this.client.send(
+      new PutCommand({ TableName: tableName, Item: item }),
+    );
   }
 
   async getItem(
